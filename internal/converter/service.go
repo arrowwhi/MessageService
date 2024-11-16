@@ -13,17 +13,20 @@ import (
 // goverter:useZeroValueOnPointerInconsistency
 // goverter:ignoreUnexported
 // goverter:matchIgnoreCase
+//
+//go:generate goverter gen ./
 type ServiceConverter interface {
-	AddChatToService(request v1chat.AddChatRequest) service.AddChatRequest
-	GetChatsToService(request v1chat.GetChatsRequest) service.GetChatsRequest
-	GetChatsToHandler(response service.GetChatsResponse) v1chat.GetChatsResponse
+	AddChatToService(request *v1chat.AddChatRequest) *service.AddChatRequest
+	// goverter:ignore UserId
+	GetChatsToService(request *v1chat.GetChatsRequest) *service.GetChatsRequest
+	GetChatsToHandler(response *service.GetChatsResponse) *v1chat.GetChatsResponse
 
-	GetMessagesToService(request v1messages.GetMessagesRequest) service.GetMessagesRequest
-	GetMessagesToHandler(response service.GetMessagesResponse) v1messages.GetMessagesResponse
-	SendMessageToService(request v1messages.SendMessageRequest) service.SendMessageRequest
-	UpdateMessageStatusToService(request v1messages.UpdateMessageStatusRequest) service.UpdateMessageStatusRequest
+	GetMessagesToService(request *v1messages.GetMessagesRequest) *service.GetMessagesRequest
+	GetMessagesToHandler(response *service.GetMessagesResponse) *v1messages.GetMessagesResponse
+	SendMessageToService(request *v1messages.SendMessageRequest) *service.SendMessageRequest
+	UpdateMessageStatusToService(request *v1messages.UpdateMessageStatusRequest) *service.UpdateMessageStatusRequest
 
-	GetStatusInfoToService(request v1users.GetStatusInfoRequest) v1users.GetStatusInfoRequest
-	GetStatusInfoToHandler(response v1users.GetStatusInfoResponse) v1users.GetStatusInfoRequest
-	UpdateStatusToService(request v1users.UpdateStatusRequest) v1users.UpdateStatusRequest
+	GetStatusInfoToService(request *v1users.GetStatusInfoRequest) *service.GetStatusInfoRequest
+	GetStatusInfoToHandler(response *service.GetStatusInfoResponse) *v1users.GetStatusInfoResponse
+	UpdateStatusToService(request *v1users.UpdateStatusRequest) *service.UpdateStatusRequest
 }

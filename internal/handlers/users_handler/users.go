@@ -7,11 +7,18 @@ import (
 )
 
 func (s *Service) GetStatusInfo(ctx context.Context, request *pb.GetStatusInfoRequest) (*pb.GetStatusInfoResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	info, err := s.service.GetStatusInfo(s.cvt.GetStatusInfoToService(request))
+	if err != nil {
+		return nil, err
+	}
+
+	return s.cvt.GetStatusInfoToHandler(info), nil
 }
 
 func (s *Service) UpdateStatus(ctx context.Context, request *pb.UpdateStatusRequest) (*emptypb.Empty, error) {
-	//TODO implement me
-	panic("implement me")
+	err := s.service.UpdateStatus(s.cvt.UpdateStatusToService(request))
+	if err != nil {
+		return nil, err
+	}
+	return &emptypb.Empty{}, nil
 }

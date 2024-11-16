@@ -16,6 +16,7 @@ type Message struct {
 	RecipientId int64
 	Text        string
 	Images      []Image
+	Timestamp   int64
 }
 
 type Chat struct {
@@ -67,7 +68,7 @@ type GetStatusInfoRequest struct {
 }
 
 type GetStatusInfoResponse struct {
-	Users []User
+	Users []*User
 }
 
 type UpdateStatusRequest struct {

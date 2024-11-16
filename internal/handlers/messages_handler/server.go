@@ -1,6 +1,7 @@
 package messages_handler
 
 import (
+	"MessageService/internal/converter"
 	"MessageService/internal/interfaces/service"
 	pb "MessageService/proto/message_service/message/v1"
 	"context"
@@ -12,12 +13,14 @@ import (
 type Service struct {
 	service service.Service
 	logger  *zap.Logger
+	cvt     converter.ServiceConverter
 }
 
-func New(logger *zap.Logger, service service.Service) *Service {
+func New(logger *zap.Logger, service service.Service, cvt converter.ServiceConverter) *Service {
 	return &Service{
 		logger:  logger,
 		service: service,
+		cvt:     cvt,
 	}
 }
 

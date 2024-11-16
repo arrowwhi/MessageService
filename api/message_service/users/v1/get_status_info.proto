@@ -11,5 +11,5 @@ message GetStatusInfoRequest {
 }
 
 message GetStatusInfoResponse {
-  User users = 1;
+  repeated User users = 1;
 }

@@ -4,14 +4,13 @@ package message_service.users.v1;
 
 option go_package = "api/message_service/users/v1;usersv1";
 
+message Status {
+  bool is_online = 1;          // Онлайн/оффлайн статус
+  int64 last_active_time = 2;  // Время последней активности (в формате Unix времени)
+}
+
 message User {
   int64 user_id = 1;             // Уникальный идентификатор пользователя
   string username = 2;           // Имя пользователя
   Status status = 3;             // Статус пользователя
-
-  // Вложенное перечисление для статуса
-  message Status {
-    bool is_online = 1;          // Онлайн/оффлайн статус
-    int64 last_active_time = 2;  // Время последней активности (в формате Unix времени)
-  }
 }

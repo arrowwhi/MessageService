@@ -7,16 +7,25 @@ import (
 )
 
 func (s *Service) GetMessages(ctx context.Context, request *pb.GetMessagesRequest) (*pb.GetMessagesResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	messages, err := s.service.GetMessages(s.cvt.GetMessagesToService(request))
+	if err != nil {
+		return nil, err
+	}
+	return s.cvt.GetMessagesToHandler(messages), nil
 }
 
 func (s *Service) SendMessage(ctx context.Context, request *pb.SendMessageRequest) (*emptypb.Empty, error) {
-	//TODO implement me
-	panic("implement me")
+	err := s.service.SendMessage(s.cvt.SendMessageToService(request))
+	if err != nil {
+		return nil, err
+	}
+	return &emptypb.Empty{}, nil
 }
 
 func (s *Service) UpdateMessageStatus(ctx context.Context, request *pb.UpdateMessageStatusRequest) (*emptypb.Empty, error) {
-	//TODO implement me
-	panic("implement me")
+	err := s.service.UpdateMessageStatus(s.cvt.UpdateMessageStatusToService(request))
+	if err != nil {
+		return nil, err
+	}
+	return &emptypb.Empty{}, nil
 }
