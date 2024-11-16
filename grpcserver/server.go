@@ -77,7 +77,7 @@ func (s *Server) Start(ctx context.Context) error {
 	reflection.Register(s.grpcServer)
 
 	// Запуск gRPC-Gateway в отдельной горутине
-	gatewayServer := gateway.NewGateway(s.adapters)
+	gatewayServer := gateway.NewGateway(*s.logger, s.adapters)
 	go func() {
 		//todo
 		if err := gatewayServer.Start(ctx, s.httpAddress, s.grpcAddress); err != nil {

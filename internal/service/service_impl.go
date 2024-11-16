@@ -83,6 +83,7 @@ func (s *service) GetChats(ctx context.Context, request *intf.GetChatsRequest) (
 }
 
 func (s *service) GetStatusInfo(ctx context.Context, request *intf.GetStatusInfoRequest) (*intf.GetStatusInfoResponse, error) {
+	s.logger.Debug("ok")
 	users, err := s.userRepo.GetStatusInfo(ctx, request.Ids)
 	if err != nil {
 		return nil, err

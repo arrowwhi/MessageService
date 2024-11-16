@@ -22,7 +22,7 @@ func New(log *zap.Logger, pg *postgreslib.Postgres) postgres.Users {
 
 func (i impl) GetStatusInfo(ctx context.Context, ids []int64) ([]*service.User, error) {
 	query := `select id, username, status, EXTRACT(EPOCH FROM last_active_at)::BIGINT
-	from users where id in ($1)`
+	from users where id = ANY($1::int8[])`
 	args := []interface{}{ids}
 	rows, err := i.pg.Pool.Query(ctx, query, args...)
 	if err != nil {
@@ -35,8 +35,8 @@ func (i impl) GetStatusInfo(ctx context.Context, ids []int64) ([]*service.User, 
 		var elem service.User
 		if err = rows.Scan(
 			&elem.UserId, &elem.Username,
-			&elem.Status,
-			&elem.LastActive,
+			&elem.Status.IsOnline,
+			&elem.Status.LastActiveTime,
 		); err != nil {
 			return nil, fmt.Errorf("scan row: %w", err)
 		}

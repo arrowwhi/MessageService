@@ -28,10 +28,9 @@ type Chat struct {
 }
 
 type User struct {
-	UserId     int64
-	Username   string
-	Status     Status
-	LastActive int64
+	UserId   int64
+	Username string
+	Status   Status
 }
 
 type GetMessagesRequest struct {

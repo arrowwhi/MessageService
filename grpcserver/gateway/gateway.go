@@ -31,7 +31,7 @@ func NewGateway(logger zap.Logger, adapters []adapter.ImplementationAdapter) *Ga
 
 func (g *Gateway) Start(ctx context.Context, httpPort string, grpcPort string) error {
 	httpUrl := httpPort
-	grpcUrl := fmt.Sprintf("localhost:%s", grpcPort)
+	grpcUrl := grpcPort
 
 	conn, err := grpc.NewClient(grpcUrl, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
