@@ -7,7 +7,7 @@ import (
 )
 
 func (s *Service) GetStatusInfo(ctx context.Context, request *pb.GetStatusInfoRequest) (*pb.GetStatusInfoResponse, error) {
-	info, err := s.service.GetStatusInfo(s.cvt.GetStatusInfoToService(request))
+	info, err := s.service.GetStatusInfo(ctx, s.cvt.GetStatusInfoToService(request))
 	if err != nil {
 		return nil, err
 	}
@@ -16,7 +16,7 @@ func (s *Service) GetStatusInfo(ctx context.Context, request *pb.GetStatusInfoRe
 }
 
 func (s *Service) UpdateStatus(ctx context.Context, request *pb.UpdateStatusRequest) (*emptypb.Empty, error) {
-	err := s.service.UpdateStatus(s.cvt.UpdateStatusToService(request))
+	err := s.service.UpdateStatus(ctx, s.cvt.UpdateStatusToService(request))
 	if err != nil {
 		return nil, err
 	}

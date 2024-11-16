@@ -1,5 +1,7 @@
 package service
 
+import "context"
+
 type Image struct {
 	ImageId int64
 	Data    []byte
@@ -26,9 +28,10 @@ type Chat struct {
 }
 
 type User struct {
-	UserId   int64
-	Username string
-	Status   Status
+	UserId     int64
+	Username   string
+	Status     Status
+	LastActive int64
 }
 
 type GetMessagesRequest struct {
@@ -77,13 +80,13 @@ type UpdateStatusRequest struct {
 }
 
 type Service interface {
-	GetMessages(request *GetMessagesRequest) (*GetMessagesResponse, error)
-	SendMessage(request *SendMessageRequest) error
-	UpdateMessageStatus(request *UpdateMessageStatusRequest) error
+	GetMessages(ctx context.Context, request *GetMessagesRequest) (*GetMessagesResponse, error)
+	SendMessage(ctx context.Context, request *SendMessageRequest) error
+	UpdateMessageStatus(ctx context.Context, request *UpdateMessageStatusRequest) error
 
-	AddChat(request *AddChatRequest) error
-	GetChats(request *GetChatsRequest) (*GetChatsResponse, error)
+	AddChat(ctx context.Context, request *AddChatRequest) error
+	GetChats(ctx context.Context, request *GetChatsRequest) (*GetChatsResponse, error)
 
-	GetStatusInfo(request *GetStatusInfoRequest) (*GetStatusInfoResponse, error)
-	UpdateStatus(request *UpdateStatusRequest) error
+	GetStatusInfo(ctx context.Context, request *GetStatusInfoRequest) (*GetStatusInfoResponse, error)
+	UpdateStatus(ctx context.Context, request *UpdateStatusRequest) error
 }

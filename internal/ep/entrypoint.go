@@ -3,8 +3,12 @@ package ep
 import (
 	"MessageService/grpcserver"
 	"MessageService/internal/config"
+	cvtimpl "MessageService/internal/converter/converter"
 	"MessageService/internal/ep/postgres"
+	"MessageService/internal/handlers/users_handler"
+	"MessageService/internal/infra/postgres/users_repo_impl"
 	"MessageService/internal/interceptors"
+	serviceimpl "MessageService/internal/service"
 	"context"
 	"fmt"
 	"go.uber.org/zap"
@@ -22,13 +26,12 @@ func Run(ctx context.Context, cfg *config.Config, zapLogger *zap.Logger) error {
 	}
 	defer masterPool.Close()
 
-	//// Инициализация сервисов
-	//services := service.NewServices(
-	//	*repositories,
-	//	*cache,
-	//	cfg.JWT.SignKey,
-	//	cfg.JWT.TokenTTL,
-	//)
+	userRepo := users_repo_impl.New(zapLogger, masterPool)
+
+	serviceCvt := cvtimpl.ServiceConverterImpl{}
+	repoCvt := cvtimpl.RepoConverterImpl{}
+
+	messageService := serviceimpl.New(zapLogger, userRepo, nil, nil, repoCvt)
 
 	srv, err := grpcserver.NewServer(
 		cfg.GRPCPort,
@@ -36,7 +39,8 @@ func Run(ctx context.Context, cfg *config.Config, zapLogger *zap.Logger) error {
 		cfg.ServiceName,
 		cfg.PrometheusPort,
 		zapLogger,
-		grpcserver.WithImplementationAdapters(),
+		grpcserver.WithImplementationAdapters(
+			users_handler.New(zapLogger, messageService, &serviceCvt)),
 		grpcserver.WithGrpcUnaryServerInterceptors(
 			interceptors.APIErrorInterceptor(zapLogger),
 		),
@@ -44,7 +48,7 @@ func Run(ctx context.Context, cfg *config.Config, zapLogger *zap.Logger) error {
 	if err != nil {
 		return fmt.Errorf("create gRPC server: %w", err)
 	}
-	zapLogger.Info("Starting gRPC server at", zap.String("gRPC port", cfg.GRPCPort))
+	zapLogger.Info("Starting gRPC server", zap.String("gRPC port", cfg.GRPCPort))
 
 	// Обработка системных сигналов для корректного завершения работы
 	quit := setupSignalChannel()

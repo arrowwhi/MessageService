@@ -1,8 +1,11 @@
 package postgres
 
-import "MessageService/internal/interfaces/service"
+import (
+	"MessageService/internal/interfaces/service"
+	"context"
+)
 
 type Users interface {
-	GetStatusInfo(ids []int64) ([]*service.User, error)
-	UpdateStatus(userId int64, online bool) error
+	GetStatusInfo(ctx context.Context, ids []int64) ([]*service.User, error)
+	UpdateStatus(ctx context.Context, userId int64, online bool) error
 }
