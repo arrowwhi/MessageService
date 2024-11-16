@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 15s  # Интервал, с которым Prometheus будет запрашивать метрики (каждые 15 секунд)
+  evaluation_interval: 15s  # Интервал для вычисления правил
+
+scrape_configs:
+  - job_name: 'my_grpc_service'  # Имя задания для вашего gRPC сервиса
+    scrape_interval: 10s  # Уникальный интервал для этого задания, если отличается от глобального
+
+    static_configs:
+      - targets: ['localhost:9090']  # Адрес вашего gRPC сервера с метриками

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package message_service.users.v1;
+
+option go_package = "api/message_service/users/v1;usersv1";
+
+import "message_service/users/v1/get_status_info.proto";
+import "message_service/users/v1/update_status.proto";
+
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+service UsersService {
+  // Получает информацию о статусе пользователей
+  rpc GetStatusInfo(GetStatusInfoRequest) returns (GetStatusInfoResponse) {
+    option (google.api.http) = {
+      get: "/v1/users/status"
+    };
+  }
+
+  // Обновляет статус пользователя
+  rpc UpdateStatus(UpdateStatusRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      patch: "/v1/users/{user_id}/status"
+      body: "*"
+    };
+  }
+}

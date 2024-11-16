@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package message_service.message.v1;
+
+option go_package = "api/message_service/message/v1;messagev1";
+
+import "message_service/message/v1/message.proto";
+
+message SendMessageRequest {
+  ChatMessage message = 1;
+}

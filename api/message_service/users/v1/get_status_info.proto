@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package message_service.users.v1;
+
+option go_package = "api/message_service/users/v1;usersv1";
+
+import "message_service/users/v1/user.proto";
+
+message GetStatusInfoRequest {
+  repeated int64 ids = 1;
+}
+
+message GetStatusInfoResponse {
+  User users = 1;
+}

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package message_service.chats.v1;
+
+option go_package = "api/message_service/chats/v1;chatsv1";
+
+import "message_service/chats/v1/chat.proto";
+
+message GetChatsRequest {
+  int64 limit = 1;
+  int64 offset = 2;
+}
+
+message GetChatsResponse {
+  repeated Chat chats = 1;
+}

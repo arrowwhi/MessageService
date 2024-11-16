@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package message_service.message.v1;
+
+option go_package = "api/message_service/message/v1;messagev1";
+
+import "message_service/message/v1/message.proto";
+import "message_service/message/v1/get_messages.proto";
+import "message_service/message/v1/send_message.proto";
+import "message_service/message/v1/update_message_status.proto";
+
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+service MessagesService {
+  // Получает список сообщений
+  rpc GetMessages(GetMessagesRequest) returns (GetMessagesResponse) {
+    option (google.api.http) = {
+      get: "/v1/messages"
+    };
+  }
+
+  // Отправляет сообщение
+  rpc SendMessage(SendMessageRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/v1/messages"
+      body: "*"
+    };
+  }
+
+  // Обновляет статус сообщения
+  rpc UpdateMessageStatus(UpdateMessageStatusRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      patch: "/v1/messages/{message_id}/status"
+      body: "*"
+    };
+  }
+}

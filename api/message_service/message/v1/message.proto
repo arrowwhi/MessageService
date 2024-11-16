@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package message_service.message.v1;
+
+option go_package = "api/message_service/message/v1;messagev1";
+
+message ChatMessage {
+  int64 message_id = 1;         // ID сообщения
+  int64 sender_id = 2;          // ID отправителя
+  int64 recipient_id = 3;       // ID получателя (или ID чата)
+  string text = 4;               // Текст сообщения (макс. 2000 символов)
+  repeated Image images = 5;     // Список изображений (макс. 3 изображения)
+  int64 timestamp = 6;           // Временная метка отправки (в формате Unix времени)
+
+  // Вложенная структура для изображения
+  message Image {
+    int64 image_id = 1;        // ID изображения
+    bytes data = 2;             // Данные изображения (макс. 1 МБ)
+  }
+}
